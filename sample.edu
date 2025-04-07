@@ -1,0 +1,49 @@
+ASSESSMENT "Biology Quiz" {
+    
+    SECTION "Cell Structure" {
+        
+        MC_QUESTION "Which organelle is responsible for energy production?" {
+            OPTION "Nucleus" INCORRECT
+            OPTION "Mitochondria" CORRECT
+            OPTION "Ribosome" INCORRECT
+            OPTION "Golgi apparatus" INCORRECT
+            
+            FEEDBACK "Mitochondria are often called the powerhouse of the cell."
+        }
+        
+        TF_QUESTION "Prokaryotic cells contain a nucleus." {
+            ANSWER FALSE
+            FEEDBACK "Prokaryotic cells do not have membrane-bound organelles."
+        }
+    }
+    
+    SECTION "Genetics Basics" {
+        
+        TF_QUESTION "DNA stands for Deoxyribonucleic Acid." {
+            ANSWER TRUE
+            FEEDBACK "DNA (Deoxyribonucleic Acid) contains the genetic instructions for development and functioning of living organisms."
+        }
+        
+        MC_QUESTION "Which of the following is a nucleotide base found in DNA?" {
+            OPTION "Uracil" INCORRECT
+            OPTION "Adenine" CORRECT
+            OPTION "Fructose" INCORRECT
+            OPTION "Peptide" INCORRECT
+            
+            FEEDBACK "Adenine is one of the four nucleotide bases in DNA, along with guanine, cytosine, and thymine."
+        }
+    }
+    
+    IF_SCORE ABOVE 3 {
+        SECTION "Advanced Topics" {
+            MC_QUESTION "Which of the following processes generates ATP?" {
+                OPTION "Translation" INCORRECT
+                OPTION "Cellular respiration" CORRECT
+                OPTION "DNA replication" INCORRECT
+                OPTION "Transcription" INCORRECT
+                
+                FEEDBACK "Cellular respiration is the process that generates ATP, the energy currency of cells."
+            }
+        }
+    }
+}
