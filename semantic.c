@@ -25,19 +25,23 @@ int validate_assessment(ASTNode* node) {
     for (int i = 0; i < node->num_children; i++) {
         ASTNode* child = node->children[i];
         
-        /* Direct sections */
-        if (child->type == NODE_SECTION) {
-            section_count++;
-            valid &= validate_section(child);
-        }
-        /* Sections within conditional blocks */
-        else if (child->type == NODE_IF_SCORE) {
-            valid &= validate_if_score(child);
-            
-            /* Count sections inside IF_SCORE blocks */
+        /* Handle sections container */
+        if (child->type == NODE_SECTIONS) {
             for (int j = 0; j < child->num_children; j++) {
-                if (child->children[j]->type == NODE_SECTION) {
+                ASTNode* section_child = child->children[j];
+                if (section_child->type == NODE_SECTION) {
                     section_count++;
+                    valid &= validate_section(section_child);
+                }
+                else if (section_child->type == NODE_IF_SCORE) {
+                    valid &= validate_if_score(section_child);
+                    
+                    /* Count sections inside IF_SCORE blocks */
+                    for (int k = 0; k < section_child->num_children; k++) {
+                        if (section_child->children[k]->type == NODE_SECTION) {
+                            section_count++;
+                        }
+                    }
                 }
             }
         }
@@ -59,13 +63,18 @@ int validate_section(ASTNode* node) {
     for (int i = 0; i < node->num_children; i++) {
         ASTNode* child = node->children[i];
         
-        if (child->type == NODE_MC_QUESTION) {
-            question_count++;
-            valid &= validate_mc_question(child);
-        }
-        else if (child->type == NODE_TF_QUESTION) {
-            question_count++;
-            valid &= validate_tf_question(child);
+        if (child->type == NODE_QUESTIONS) {
+            for (int j = 0; j < child->num_children; j++) {
+                ASTNode* question = child->children[j];
+                if (question->type == NODE_MC_QUESTION) {
+                    question_count++;
+                    valid &= validate_mc_question(question);
+                }
+                else if (question->type == NODE_TF_QUESTION) {
+                    question_count++;
+                    valid &= validate_tf_question(question);
+                }
+            }
         }
     }
     
@@ -183,7 +192,9 @@ void semantic_error(const char* message, ASTNode* node) {
     
     switch (node->type) {
         case NODE_ASSESSMENT: node_type_str = "ASSESSMENT"; break;
+        case NODE_SECTIONS: node_type_str = "SECTIONS"; break;
         case NODE_SECTION: node_type_str = "SECTION"; break;
+        case NODE_QUESTIONS: node_type_str = "QUESTIONS"; break;
         case NODE_MC_QUESTION: node_type_str = "MC_QUESTION"; break;
         case NODE_TF_QUESTION: node_type_str = "TF_QUESTION"; break;
         case NODE_OPTION: node_type_str = "OPTION"; break;

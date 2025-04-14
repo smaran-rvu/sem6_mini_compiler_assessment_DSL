@@ -4,7 +4,9 @@
 /* Node types for AST */
 typedef enum {
     NODE_ASSESSMENT,
+    NODE_SECTIONS,
     NODE_SECTION,
+    NODE_QUESTIONS,
     NODE_MC_QUESTION,
     NODE_TF_QUESTION,
     NODE_OPTION,

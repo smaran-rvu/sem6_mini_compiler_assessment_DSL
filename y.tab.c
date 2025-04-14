@@ -73,6 +73,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ast.h"
+#include "semantic.h"
 
 /* Function declarations */
 int yylex();
@@ -82,7 +83,7 @@ extern int yylineno;
 /* Root of the AST */
 ASTNode* ast_root = NULL;
 
-#line 86 "y.tab.c"
+#line 87 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -171,13 +172,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 17 "assessment.y"
+#line 18 "assessment.y"
 
     char* str;
     int num;
     ASTNode* node;
 
-#line 181 "y.tab.c"
+#line 182 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -620,9 +621,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    37,    37,    41,    48,    52,    56,    60,    67,    74,
-      78,    85,    86,    90,    95,   102,   106,   113,   117,   124,
-     129,   136,   140,   147,   153,   159,   168,   172
+       0,    38,    38,    42,    49,    53,    57,    61,    68,    75,
+      79,    86,    87,    91,    96,   103,   107,   114,   118,   125,
+     130,   137,   141,   148,   154,   160,   169,   173
 };
 #endif
 
@@ -1217,237 +1218,237 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: assessment  */
-#line 37 "assessment.y"
+#line 38 "assessment.y"
                { ast_root = (yyvsp[0].node); }
-#line 1223 "y.tab.c"
+#line 1224 "y.tab.c"
     break;
 
   case 3: /* assessment: ASSESSMENT STRING '{' sections '}'  */
-#line 41 "assessment.y"
+#line 42 "assessment.y"
                                        {
         (yyval.node) = create_node(NODE_ASSESSMENT, (yyvsp[-3].str));
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1232 "y.tab.c"
+#line 1233 "y.tab.c"
     break;
 
   case 4: /* sections: sections section  */
-#line 48 "assessment.y"
+#line 49 "assessment.y"
                      {
         (yyval.node) = (yyvsp[-1].node);
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1241 "y.tab.c"
+#line 1242 "y.tab.c"
     break;
 
   case 5: /* sections: sections if_score  */
-#line 52 "assessment.y"
+#line 53 "assessment.y"
                         {
         (yyval.node) = (yyvsp[-1].node);
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1250 "y.tab.c"
+#line 1251 "y.tab.c"
     break;
 
   case 6: /* sections: section  */
-#line 56 "assessment.y"
+#line 57 "assessment.y"
               {
-        (yyval.node) = create_node(NODE_ASSESSMENT, "sections");
+        (yyval.node) = create_node(NODE_SECTIONS, "sections");
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1259 "y.tab.c"
+#line 1260 "y.tab.c"
     break;
 
   case 7: /* sections: if_score  */
-#line 60 "assessment.y"
+#line 61 "assessment.y"
                {
-        (yyval.node) = create_node(NODE_ASSESSMENT, "sections");
+        (yyval.node) = create_node(NODE_SECTIONS, "sections");
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1268 "y.tab.c"
+#line 1269 "y.tab.c"
     break;
 
   case 8: /* section: SECTION STRING '{' questions '}'  */
-#line 67 "assessment.y"
+#line 68 "assessment.y"
                                      {
         (yyval.node) = create_node(NODE_SECTION, (yyvsp[-3].str));
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1277 "y.tab.c"
+#line 1278 "y.tab.c"
     break;
 
   case 9: /* questions: questions question  */
-#line 74 "assessment.y"
+#line 75 "assessment.y"
                        {
         (yyval.node) = (yyvsp[-1].node);
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1286 "y.tab.c"
+#line 1287 "y.tab.c"
     break;
 
   case 10: /* questions: question  */
-#line 78 "assessment.y"
+#line 79 "assessment.y"
                {
-        (yyval.node) = create_node(NODE_SECTION, "questions");
+        (yyval.node) = create_node(NODE_QUESTIONS, "questions");
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1295 "y.tab.c"
+#line 1296 "y.tab.c"
     break;
 
   case 11: /* question: mc_question  */
-#line 85 "assessment.y"
+#line 86 "assessment.y"
                 { (yyval.node) = (yyvsp[0].node); }
-#line 1301 "y.tab.c"
+#line 1302 "y.tab.c"
     break;
 
   case 12: /* question: tf_question  */
-#line 86 "assessment.y"
+#line 87 "assessment.y"
                   { (yyval.node) = (yyvsp[0].node); }
-#line 1307 "y.tab.c"
+#line 1308 "y.tab.c"
     break;
 
   case 13: /* mc_question: MC_QUESTION STRING '{' options feedback '}'  */
-#line 90 "assessment.y"
+#line 91 "assessment.y"
                                                 {
         (yyval.node) = create_node(NODE_MC_QUESTION, (yyvsp[-4].str));
         add_child((yyval.node), (yyvsp[-2].node));
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1317 "y.tab.c"
+#line 1318 "y.tab.c"
     break;
 
   case 14: /* mc_question: MC_QUESTION STRING '{' options '}'  */
-#line 95 "assessment.y"
+#line 96 "assessment.y"
                                          {
         (yyval.node) = create_node(NODE_MC_QUESTION, (yyvsp[-3].str));
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1326 "y.tab.c"
+#line 1327 "y.tab.c"
     break;
 
   case 15: /* options: options option  */
-#line 102 "assessment.y"
+#line 103 "assessment.y"
                    {
         (yyval.node) = (yyvsp[-1].node);
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1335 "y.tab.c"
+#line 1336 "y.tab.c"
     break;
 
   case 16: /* options: option  */
-#line 106 "assessment.y"
+#line 107 "assessment.y"
              {
         (yyval.node) = create_node(NODE_MC_QUESTION, "options");
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1344 "y.tab.c"
+#line 1345 "y.tab.c"
     break;
 
   case 17: /* option: OPTION STRING CORRECT  */
-#line 113 "assessment.y"
+#line 114 "assessment.y"
                           {
         (yyval.node) = create_node(NODE_OPTION, (yyvsp[-1].str));
         (yyval.node)->correct = 1;
     }
-#line 1353 "y.tab.c"
+#line 1354 "y.tab.c"
     break;
 
   case 18: /* option: OPTION STRING INCORRECT  */
-#line 117 "assessment.y"
+#line 118 "assessment.y"
                               {
         (yyval.node) = create_node(NODE_OPTION, (yyvsp[-1].str));
         (yyval.node)->correct = 0;
     }
-#line 1362 "y.tab.c"
+#line 1363 "y.tab.c"
     break;
 
   case 19: /* tf_question: TF_QUESTION STRING '{' answer feedback '}'  */
-#line 124 "assessment.y"
+#line 125 "assessment.y"
                                                {
         (yyval.node) = create_node(NODE_TF_QUESTION, (yyvsp[-4].str));
         add_child((yyval.node), (yyvsp[-2].node));
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1372 "y.tab.c"
+#line 1373 "y.tab.c"
     break;
 
   case 20: /* tf_question: TF_QUESTION STRING '{' answer '}'  */
-#line 129 "assessment.y"
+#line 130 "assessment.y"
                                         {
         (yyval.node) = create_node(NODE_TF_QUESTION, (yyvsp[-3].str));
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1381 "y.tab.c"
+#line 1382 "y.tab.c"
     break;
 
   case 21: /* answer: ANSWER TRUE_VAL  */
-#line 136 "assessment.y"
+#line 137 "assessment.y"
                     {
         (yyval.node) = create_node(NODE_ANSWER, "TRUE");
         (yyval.node)->answer = 1;
     }
-#line 1390 "y.tab.c"
+#line 1391 "y.tab.c"
     break;
 
   case 22: /* answer: ANSWER FALSE_VAL  */
-#line 140 "assessment.y"
+#line 141 "assessment.y"
                        {
         (yyval.node) = create_node(NODE_ANSWER, "FALSE");
         (yyval.node)->answer = 0;
     }
-#line 1399 "y.tab.c"
+#line 1400 "y.tab.c"
     break;
 
   case 23: /* feedback: FEEDBACK STRING  */
-#line 147 "assessment.y"
+#line 148 "assessment.y"
                     {
         (yyval.node) = create_node(NODE_FEEDBACK, (yyvsp[0].str));
     }
-#line 1407 "y.tab.c"
+#line 1408 "y.tab.c"
     break;
 
   case 24: /* if_score: IF_SCORE ABOVE NUMBER '{' conditional_sections '}'  */
-#line 153 "assessment.y"
+#line 154 "assessment.y"
                                                        {
         (yyval.node) = create_node(NODE_IF_SCORE, "if_score_above");
         (yyval.node)->score_condition = 1;
         (yyval.node)->score_value = (yyvsp[-3].num);
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1418 "y.tab.c"
+#line 1419 "y.tab.c"
     break;
 
   case 25: /* if_score: IF_SCORE BELOW NUMBER '{' conditional_sections '}'  */
-#line 159 "assessment.y"
+#line 160 "assessment.y"
                                                          {
         (yyval.node) = create_node(NODE_IF_SCORE, "if_score_below");
         (yyval.node)->score_condition = 0;
         (yyval.node)->score_value = (yyvsp[-3].num);
         add_child((yyval.node), (yyvsp[-1].node));
     }
-#line 1429 "y.tab.c"
+#line 1430 "y.tab.c"
     break;
 
   case 26: /* conditional_sections: conditional_sections section  */
-#line 168 "assessment.y"
+#line 169 "assessment.y"
                                  {
         (yyval.node) = (yyvsp[-1].node);
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1438 "y.tab.c"
+#line 1439 "y.tab.c"
     break;
 
   case 27: /* conditional_sections: section  */
-#line 172 "assessment.y"
+#line 173 "assessment.y"
               {
         (yyval.node) = create_node(NODE_IF_SCORE, "conditional_sections");
         add_child((yyval.node), (yyvsp[0].node));
     }
-#line 1447 "y.tab.c"
+#line 1448 "y.tab.c"
     break;
 
 
-#line 1451 "y.tab.c"
+#line 1452 "y.tab.c"
 
       default: break;
     }
@@ -1640,7 +1641,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 178 "assessment.y"
+#line 179 "assessment.y"
 
 
 void yyerror(const char* s) {

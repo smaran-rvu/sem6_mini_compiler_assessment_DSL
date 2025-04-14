@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ast.h"
+#include "semantic.h"
 
 /* Function declarations */
 int yylex();
@@ -54,11 +55,11 @@ sections:
         add_child($$, $2);
     }
     | section {
-        $$ = create_node(NODE_ASSESSMENT, "sections");
+        $$ = create_node(NODE_SECTIONS, "sections");
         add_child($$, $1);
     }
     | if_score {
-        $$ = create_node(NODE_ASSESSMENT, "sections");
+        $$ = create_node(NODE_SECTIONS, "sections");
         add_child($$, $1);
     }
     ;
@@ -76,7 +77,7 @@ questions:
         add_child($$, $2);
     }
     | question {
-        $$ = create_node(NODE_SECTION, "questions");
+        $$ = create_node(NODE_QUESTIONS, "questions");
         add_child($$, $1);
     }
     ;

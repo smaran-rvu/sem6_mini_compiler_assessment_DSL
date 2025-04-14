@@ -26,9 +26,7 @@ ASSESSMENT "Biology Quiz" {
         
         MC_QUESTION "Which of the following is a nucleotide base found in DNA?" {
             OPTION "Uracil" INCORRECT
-            OPTION "Adenine" CORRECT
-            OPTION "Fructose" INCORRECT
-            OPTION "Peptide" INCORRECT
+
             
             FEEDBACK "Adenine is one of the four nucleotide bases in DNA, along with guanine, cytosine, and thymine."
         }

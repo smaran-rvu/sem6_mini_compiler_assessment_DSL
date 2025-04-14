@@ -81,8 +81,14 @@ void print_ast(ASTNode* node, int level) {
         case NODE_ASSESSMENT:
             printf("ASSESSMENT: %s\n", node->text);
             break;
+        case NODE_SECTIONS:
+            printf("SECTIONS\n");
+            break;
         case NODE_SECTION:
             printf("SECTION: %s\n", node->text);
+            break;
+        case NODE_QUESTIONS:
+            printf("QUESTIONS\n");
             break;
         case NODE_MC_QUESTION:
             printf("MC_QUESTION: %s\n", node->text);
